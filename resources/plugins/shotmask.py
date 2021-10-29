@@ -150,7 +150,7 @@ class HShotMaskLocator(omui.MPxLocatorNode):
         HShotMaskLocator.addAttribute(border_color)
 
         attr = om.MFnNumericAttribute()
-        border_alpha = attr.create("borderAlpha", "ba", om.MFnNumericData.kFloat, 1.0)
+        border_alpha = attr.create("borderAlpha", "ba", om.MFnNumericData.kFloat, 0.8)
         attr.writable = True
         attr.storable = True
         attr.keyable = True
@@ -330,10 +330,6 @@ class HShotMaskDrawOverride(omr.MPxDrawOverride):
         draw_manager.setFontSize(int((border_height - border_height * 0.15) * data.font_scale))
         draw_manager.setColor(data.font_color)
 
-        if data.top_border:
-            self.draw_border(draw_manager, om.MPoint(mask_x, mask_top_y - border_height), background_size, data.border_color)
-        if data.bottom_border:
-            self.draw_border(draw_manager, om.MPoint(mask_x, mask_bottom_y), background_size, data.border_color)
 
         self.draw_text(draw_manager, om.MPoint(mask_x + data.text_padding, mask_top_y - border_height), data.text_fields[0], omr.MUIDrawManager.kLeft, background_size)
         self.draw_text(draw_manager, om.MPoint(vp_half_width, mask_top_y - border_height), data.text_fields[1], omr.MUIDrawManager.kCenter, background_size)
@@ -342,6 +338,10 @@ class HShotMaskDrawOverride(omr.MPxDrawOverride):
         self.draw_text(draw_manager, om.MPoint(vp_half_width, mask_bottom_y), data.text_fields[4], omr.MUIDrawManager.kCenter, background_size)
         self.draw_text(draw_manager, om.MPoint(mask_x + mask_width - data.text_padding, mask_bottom_y), data.text_fields[5], omr.MUIDrawManager.kRight, background_size)
 
+        if data.top_border:
+            self.draw_border(draw_manager, om.MPoint(mask_x, mask_top_y - border_height), background_size, data.border_color)
+        if data.bottom_border:
+            self.draw_border(draw_manager, om.MPoint(mask_x, mask_bottom_y), background_size, data.border_color)
         draw_manager.endDrawable()
 
     def draw_border(self, draw_manager, position, background_size, color):
